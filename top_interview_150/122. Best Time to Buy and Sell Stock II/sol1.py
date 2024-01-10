@@ -1,20 +1,17 @@
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         
+        miniProfits = []
         
-        if not prices:
-            return 0
+        for i in range(len(prices) - 1):
+            miniProfits.append((prices[i] - prices[i+1])*-1)
 
-        # initialize variables for first buy, first sell, second buy, and second sell
-        buy1, buy2 = float('inf'), float('inf')
-        sell1, sell2 = 0, 0
+        tmpmaxProfit = 0
+        maxProfit = 0
 
-        # iterate over prices to update buy and sell values
-        for price in prices:
-            # update first buy and sell values
-            buy1 = min(buy1, price)
-            sell1 = max(sell1, price - buy1)
-            # update second buy and sell values
-            buy2 = min(buy2, price - sell1)
-            sell2 = max(sell2, price - buy2)
-        return sell2
+        for i in range(len(miniProfits)):
+            tmpmaxProfit = max(0,(maxProfit + miniProfits[i]))
+            if tmpmaxProfit > maxProfit:
+                maxProfit = tmpmaxProfit
+
+        return maxProfit
